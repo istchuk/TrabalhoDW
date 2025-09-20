@@ -6,7 +6,9 @@ import "./styles/temas.css";
 export default function App() {
   
   return (
-   <Gerador></Gerador>
+   <div>
+     <Gerador></Gerador>
+   </div>
 
 
     /* <div className='card_adicionar'>

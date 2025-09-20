@@ -1,21 +1,95 @@
-
+.container {
+    background-color: var(--background);
+}
 
 .gerador{
     max-width: 40rem;
     height: auto;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
-    margin: 1rem;
-    padding: 1rem;
-    justify-content: space-between;
-    align-items: center;
+    margin: 1.5rem;
+    padding: 1.5rem;
+    justify-content: space-between; 
+    align-items: flex-start;
+    background-color: var(--card-background);
+    border: 1px solid var(--border);         
+    border-radius: 8px;            
+    outline: none;                  
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
 }
 
+.gerador h1 {
+    padding-bottom: 0.5rem;
+}
+
+input {
+    background-color: var(--background);
+    padding: 1rem;
+    margin: 1rem;
+    width: 35rem;
+    border: 1px solid var(--border);         
+    border-radius: 8px;            
+    outline: none;                  
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+}
+
+
 .link{
-    max-width: 30rem;
+    width: 36rem;
     max-height: 20rem;
-    border: 1px solid black;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
+    border: 1px solid var(--border);         
+    border-radius: 8px;            
+    outline: none;                  
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+    background-color: var(--background);
+}
+
+.link > button {
+    background-color: var(--primary);
+    padding: 1rem;
+    margin: 1rem;
+    border: 1px solid var(--border);         
+    border-radius: 8px;            
+    outline: none;                  
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+    font-weight: 700;
+    color: var(--card-background);
+    cursor: pointer;
+}
+
+#linkreal {
+    background-color: var(--card-background);
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid var(border);         
+    border-radius: 8px;            
+    outline: none;                  
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+}
+
+#linkgerado {
+    font-weight: 700;
+}
+
+label {
+    padding-top:5px ;
+    padding-bottom: 5px;
+    font-weight: 700;
+}
+
+.gerador > button {
+    background-color: var(--primary);
+    padding: 1rem;
+    margin: 1rem;
+    width: 35rem;
+    border: 1px solid var(--border);         
+    border-radius: 8px;            
+    outline: none;                  
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+    font-weight: 700;
+    color: var(--card-background);
+    cursor: pointer;
 }

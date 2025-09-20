@@ -20,7 +20,7 @@
     Usadas para botões, destaques e elementos interativos
   */
   --primary-light: #4de7b7; /* Tom mais claro do primário */
-  --primary: #0da170; /* Cor principal */
+  --primary: #1BC55A; /* Cor principal */
   --primary-dark: #065f46; /* Tom mais escuro do primário */
 
   /*
@@ -60,4 +60,9 @@
   */
   --disabled: #555f7d; /* Fundo de elemento desabilitado */
   --text-disabled: #aab3cc; /* Texto de elemento desabilitado */
+
+
+  --card-background: #FDFDFD;
+  --background: #FAFAFA;
+  --border: #ddd; 
 }

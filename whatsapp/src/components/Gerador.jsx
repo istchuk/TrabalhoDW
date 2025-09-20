@@ -3,13 +3,15 @@ import styles from "./Gerador.module.css"
 export default function Gerador(){
     return(
     <div className= {styles.gerador}>
-      <h1>Gerador de links</h1>
-      <input type="number" placeholder='Numero Ex:(xx)9...' />
-      <input type="text" placeholder='Mensagem (opcional)'/>
+      <h1>Gerador de Links</h1>
+      <label htmlFor="numero">Número do Whatsapp</label>
+      <input type="number"id="numero" placeholder='(__) 9____-____' />
+      <label htmlFor="mensagem">Mensagem (opcional)</label>
+      <input type="text" id="mensagem" placeholder='Digite sua mensagem'/>
       <button>Gerar link</button>
       <div className={styles.link}>
-        <p>link gerado:</p>
-        <p>htts://...</p>
+        <p id={styles.linkgerado}>Link gerado:</p>
+        <p id={styles.linkreal}>htts://...</p>
         <button>Abrir whatsapp</button>
       </div>
     </div>
