@@ -1,3 +1,4 @@
+
 import Gerador from "./components/Gerador"
 import "./styles/global.css";
 import "./styles/temas.css";
@@ -28,5 +29,3 @@ export default function App() {
 
   )
 }
-
-
