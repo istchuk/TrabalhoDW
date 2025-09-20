@@ -1,0 +1,21 @@
+
+
+.gerador{
+    max-width: 40rem;
+    height: auto;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link{
+    max-width: 30rem;
+    max-height: 20rem;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Gerador from "./components/Gerador"
+import "./styles/global.css";
+import "./styles/temas.css";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
+  
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+   <Gerador></Gerador>
+
+
+    /* <div className='card_adicionar'>
+      <h1>Adicionar contato</h1>
+      <input type="text" placeholder='Nome' />
+      <input type="number" placeholder='Numero Ex:(xx)9...' />
+      <button>Adicionar</button>
+    </div> */
+
+    /* <div className="card_lista">
+      <h3>Seus contatos (1)</h3>
+      <div className='contato'>
+        <p>Nome</p>
+        <p>99 999999999</p>
+        <button>Mensagem</button>
+        <button>Editar</button>
+        <button>Excluir</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div> */
+
   )
 }
 
-export default App
+
