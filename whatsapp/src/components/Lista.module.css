@@ -1,0 +1,31 @@
+
+
+.adicionar{
+    max-width: 40rem;
+    height: auto;
+    display: flex;
+    border: 1px solid black;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contato{
+    width: 35rem;
+    height: 10rem;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.alinhamento{
+    display: flex;
+    align-items: center;
+}
+
+button{
+    margin: 0.5rem;
+    width: 6.5rem;
+    height: 3rem;
+}
