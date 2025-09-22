@@ -8,11 +8,11 @@ export default function Gerador(){
       <input type="number"id="numero" placeholder='(__) 9____-____' />
       <label htmlFor="mensagem">Mensagem (opcional)</label>
       <input type="text" id="mensagem" placeholder='Digite sua mensagem'/>
-      <button>Gerar link</button>
+      <button className={styles.btnGerar}>Gerar link</button>
       <div className={styles.link}>
         <p id={styles.linkgerado}>Link gerado:</p>
         <p id={styles.linkreal}>htts://...</p>
-        <button>Abrir whatsapp</button>
+        <button className={styles.btnAbrir}>Abrir whatsapp</button>
       </div>
     </div>
     )

@@ -47,7 +47,8 @@ input {
     background-color: var(--background);
 }
 
-.link > button {
+.btnGerar {
+    width: 35rem;
     background-color: var(--primary);
     padding: 1rem;
     margin: 1rem;
@@ -80,11 +81,11 @@ label {
     font-weight: 700;
 }
 
-.gerador > button {
+.btnAbrir {
     background-color: var(--primary);
     padding: 1rem;
     margin: 1rem;
-    width: 35rem;
+    width: auto;
     border: 1px solid var(--border);         
     border-radius: 8px;            
     outline: none;                  

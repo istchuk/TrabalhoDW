@@ -6,7 +6,7 @@ export default function(){
       <h1>Adicionar contato</h1>
       <input type="text" placeholder='Nome' />
       <input type="number" placeholder='Numero Ex:(xx)9...' />
-      <button>Adicionar</button>
+      <button className={styles.btnAdicionar}>Adicionar</button>
     </div>
     )
 }
