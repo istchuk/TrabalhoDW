@@ -54,7 +54,7 @@ export default function Adicionar() {
           <h3>Seus contatos ({contatos.length})</h3>
           {/* aqui, o react pega o contatos do usestate e para cada contato adicionado que ele percorre com o map é criada uma div específica para ele */}
           {contatos.map((c, index) => (
-            // o key é uma funcionalidade do react para associar cada elemento da ela corresponde a cada item de uma lista, nesse caso o contato e sua div
+            // o key é uma funcionalidade do react para associar cada elemento da tela corresponde a cada item de uma lista, nesse caso o contato e sua div
             <div key={index} className={styles.contato}>
               <div>
                 <p>{c.nome}</p>
