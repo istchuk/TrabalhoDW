@@ -10,9 +10,7 @@ export default function App() {
   return (
    <div className="container">
     <Gerador></Gerador>
-    <div className="alinhamento">
       <Adicionar></Adicionar>
-    </div>
    </div>
 
   )

@@ -30,8 +30,8 @@ export default function Adicionar() {
   return (
     <div className={styles.adicionar}>
       <h1>Adicionar contato</h1>
-
-      <input
+    <div className={styles.inputs}>
+    <input
         type="text"
         placeholder="Nome"
         value={nome}
@@ -44,10 +44,12 @@ export default function Adicionar() {
         value={numero}
         onChange={handleChangeNumero}
       />
-
       <button className={styles.btnAdicionar} onClick={adicionarContato}>
         Adicionar
       </button>
+    </div>
+      
+
 
         <div className={styles.adicionarcontato}>
           {/* .length usado para gerar a contagem de contatos salvos no array */}

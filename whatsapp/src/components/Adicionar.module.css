@@ -1,11 +1,10 @@
 .adicionar{
-    max-width: 40rem;
-    height: auto;
+    min-width: 40rem;
     display: flex;
     flex-direction: column;
     margin: 1.5rem;
     padding: 1.5rem;
-    justify-content: space-between; 
+    justify-content: flex-start; 
     align-items: flex-start;
     background-color: var(--card-background);
     border: 1px solid var(--border);         
@@ -30,22 +29,18 @@
 
 .adicionarcontato{
     max-width: 40rem;
-    height: auto;
+    max-height: 20rem;
     display: flex;
     flex-direction: column;
     margin: 1.5rem;
     margin-top: 2rem;
-    padding: 1.5rem;
     justify-content: space-between; 
     align-items: flex-start;
     background-color: var(--card-background);
-    border: 1px solid var(--border);         
-    border-radius: 8px;            
-    outline: none;                  
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
+    overflow: auto;
 }
 .contato{
-    width: 35rem;
+    width: 31rem;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -60,7 +55,7 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
 }
 
-.alinhamento{
+.alinhamento{   
     display: flex;
     align-items: center;
     padding: 1rem;

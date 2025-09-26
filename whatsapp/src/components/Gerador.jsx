@@ -22,32 +22,34 @@ export default function Gerador(){
     return(
     <div className= {styles.gerador}>
       <h1>Gerador de Links</h1>
-      <label htmlFor="numero">Número do Whatsapp</label>
+      <div>
+        <label htmlFor="numero">Número do Whatsapp</label>
       <input 
       type="tel"
       id="numero" 
       value={numero} 
       placeholder='(__) 9____-____'
-      onChange={(e) => setNumero(e.target.value)} />
-
+      onChange={(e) => setNumero(e.target.value)} /></div>
+      
+      <div>
       <label htmlFor="mensagem">Mensagem (opcional)</label>
       <input 
       type="text" 
       id="mensagem" 
       onChange={(e) => setMensagem(e.target.value)} 
       value={mensagem} 
-      placeholder='Digite sua mensagem'/>
+      placeholder='Digite sua mensagem'/></div>
+      
 
       <button className={styles.btnGerar} onClick={gerarLink}>Gerar link</button>
 
 
-      {link && (
+      
         <div className={styles.link}>
         <p id={styles.linkgerado}>Link gerado:</p>
         <p id={styles.linkreal}>{link}</p>
         <button className={styles.btnAbrir}onClick={abrirWhatsapp} >Abrir whatsapp</button>
       </div>
-      )}
     </div>
     )
 }
