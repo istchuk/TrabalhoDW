@@ -72,3 +72,12 @@
     padding: 0.5rem;
     height: 3rem;
 }
+
+.alinhamento button svg{
+    height: 2rem;
+    width: 2rem;
+}
+
+.nomeContato {
+    font-weight: bold;
+}

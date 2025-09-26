@@ -27,8 +27,7 @@ export default function Gerador(){
       <input 
       type="tel"
       id="numero" 
-      value={numero} 
-      placeholder='(__) 9____-____'
+      value={numero}
       onChange={(e) => setNumero(e.target.value)} /></div>
       
       <div>
