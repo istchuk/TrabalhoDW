@@ -22,25 +22,26 @@ export default function Gerador(){
     return(
     <div className= {styles.gerador}>
       <h1>Gerador de Links</h1>
-      <div>
+      <form onSubmit={(e) => { e.preventDefault(); gerarLink(); }}> 
+        <div>
         <label htmlFor="numero">Número do Whatsapp</label>
-      <input 
-      type="tel"
-      id="numero" 
-      value={numero}
-      onChange={(e) => setNumero(e.target.value)} /></div>
-      
-      <div>
-      <label htmlFor="mensagem">Mensagem (opcional)</label>
-      <input 
-      type="text" 
-      id="mensagem" 
-      onChange={(e) => setMensagem(e.target.value)} 
-      value={mensagem} 
-      placeholder='Digite sua mensagem'/></div>
-      
-
-      <button className={styles.btnGerar} onClick={gerarLink}>Gerar link</button>
+        <input
+        type="tel"
+        id="numero"
+        value={numero}
+        onChange={(e) => setNumero(e.target.value)} /></div>
+        
+        <div>
+        <label htmlFor="mensagem">Mensagem (opcional)</label>
+        <input
+        type="text"
+        id="mensagem"
+        onChange={(e) => setMensagem(e.target.value)}
+        value={mensagem}
+        placeholder='Digite sua mensagem'/></div>
+        
+        <button className={styles.btnGerar} onClick={gerarLink}>Gerar link</button>
+      </form>
 
 
       
