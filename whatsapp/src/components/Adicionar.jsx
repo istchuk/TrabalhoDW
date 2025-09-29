@@ -38,6 +38,7 @@ export default function Adicionar() {
   } 
 
   function excluirContato(IndexParaExcluir){
+    //preciso comentar isso
     setContatos(contatos.filter((_, index) => index !== IndexParaExcluir))
   }
 
