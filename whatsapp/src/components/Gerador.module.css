@@ -95,3 +95,12 @@ label {
     color: var(--card-background);
     cursor: pointer;
 }
+
+.alinhar{
+    display: flex;
+    justify-content: space-around;
+}
+
+img{
+    color: #1BC55A;
+}

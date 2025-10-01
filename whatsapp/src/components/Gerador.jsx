@@ -8,8 +8,9 @@ export default function Gerador() {
 
   function gerarLink() {
     if (!numero) {
-      return alert("Digite um número")
+      alert("Digite um número")
       setMensagem("")
+      return
     }
     else {
       const quantidade = numero.toString()
@@ -33,12 +34,27 @@ export default function Gerador() {
     }
   }
 
+  function handleChange(e) {
+    //captura o valor do input e remove tudo que não é número
+  let valor = e.target.value.replace(/\D/g, "")
+
+  //faz a verificação para quando foram digitados mais de dois algariasmos colocar os ()
+  if (valor.length > 2) {
+    //.slice pega o começo e o fim do numero, nesse caso é como se tivessems quebrado o numero em 2
+    // o primeiro slice adiciona e exibe os dois primeiros numeros com ()
+    //o segundo exibe o restante do numero
+    valor = `(${valor.slice(0, 2)})${valor.slice(2)}`
+  }
+
+  setNumero(valor)
+}
+
 
   return (
     <div className={styles.gerador}>
       <h1>Gerador de Links</h1>
       {/* gabriel, comenta isso aqui por favor */}
-      <form onSubmit={(e) => { e.preventDefault(); gerarLink(); }}>
+      <form onSubmit={(e) => { e.preventDefault()}}>
         <div>
           <label htmlFor="numero">Número do Whatsapp</label>
           <input
@@ -46,7 +62,9 @@ export default function Gerador() {
             id="numero"
             placeholder="Digite um número"
             value={numero}
-            onChange={(e) => setNumero(e.target.value)} /></div>
+            onChange = {handleChange}
+            /> 
+            </div>
 
         <div>
           <label htmlFor="mensagem">Mensagem (opcional)</label>
@@ -63,9 +81,13 @@ export default function Gerador() {
 
 
       <div className={styles.link}>
+        
         <p id={styles.linkgerado}>Link gerado:</p>
         <p id={styles.linkreal}>{link}</p>
-        <button className={styles.btnAbrir} onClick={abrirWhatsapp} >Abrir whatsapp</button>
+        <div className={styles.alinhar}>
+          <button className={styles.btnAbrir} onClick={abrirWhatsapp} >Abrir whatsapp</button>
+          <button><img width="64" height="64" src="https://img.icons8.com/pastel-glyph/64/copy--v1.png" alt="copy--v1"/></button>
+        </div>
       </div>
     </div>
   )
