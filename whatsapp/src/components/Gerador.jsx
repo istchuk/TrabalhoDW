@@ -20,7 +20,7 @@ export default function Gerador() {
       setLink(`https://wa.me/${numero}${texto}`)
       }
       else{
-        alert("digite um numero válido")
+        alert("Digite um número válido")
         setNumero("")
         setMensagem("")
       }
@@ -86,7 +86,7 @@ export default function Gerador() {
         <p id={styles.linkreal}>{link}</p>
         <div className={styles.alinhar}>
           <button className={styles.btnAbrir} onClick={abrirWhatsapp} >Abrir whatsapp</button>
-          <button><img width="64" height="64" src="https://img.icons8.com/pastel-glyph/64/copy--v1.png" alt="copy--v1"/></button>
+          <button><img src="https://img.icons8.com/?size=100&id=30&format=png" alt="" /></button>
         </div>
       </div>
     </div>
