@@ -1,5 +1,6 @@
 import styles from "./Gerador.module.css"
 import { useState } from "react"
+import image from './icon.png'
 
 export default function Gerador() {
   const [numero, setNumero] = useState("")
@@ -86,7 +87,7 @@ export default function Gerador() {
         <p id={styles.linkreal}>{link}</p>
         <div className={styles.alinhar}>
           <button className={styles.btnAbrir} onClick={abrirWhatsapp} >Abrir whatsapp</button>
-          <button><img src="https://img.icons8.com/?size=100&id=30&format=png" alt="" /></button>
+          <button className={styles.btnCopy}><img src={image} alt="" /></button>
         </div>
       </div>
     </div>
