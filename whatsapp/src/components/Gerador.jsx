@@ -54,7 +54,7 @@ export default function Gerador() {
   return (
     <div className={styles.gerador}>
       <h1>Gerador de Links</h1>
-      {/* gabriel, comenta isso aqui por favor */}
+      {/* para poder criar um link com o enter do teclado */}
       <form onSubmit={(e) => { e.preventDefault()}}>
         <div>
           <label htmlFor="numero">Número do Whatsapp</label>
