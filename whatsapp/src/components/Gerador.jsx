@@ -13,21 +13,19 @@ export default function Gerador() {
       setMensagem("")
       return
     }
-    else {
-      const quantidade = numero.toString()
-      if(numero == quantidade && quantidade.length == 11){
-        // essa linha verifica se há uma mensagem digitada, se sim ele vai codificar a mensagem e adicionar na url, se não houver, ele só gera a url com o número
-      const texto = mensagem ? `?text=${encodeURIComponent(mensagem)}` : ""
-      setLink(`https://wa.me/${numero}${texto}`)
-      }
-      else{
-        alert("Digite um número válido")
-        setNumero("")
-        setMensagem("")
-      }
-      
-    }
+    //comentar isso
+     let quantidade = numero.toString().replace(/\D/g, "");
+
+  if (/^\d{11}$/.test(quantidade)) {
+    const numeroCodificado = btoa(quantidade);
+    const texto = mensagem ? `?text=${encodeURIComponent(mensagem)}` : "";
+    setLink(`https://wa.me/${numeroCodificado}${texto}`);
+  } else {
+    alert("Digite um número válido");
+    setNumero("");
+    setMensagem("");
   }
+}
 
   function abrirWhatsapp() {
     if (link) {
@@ -49,6 +47,16 @@ export default function Gerador() {
 
   setNumero(valor)
 }
+
+async function copiar() {
+  try {
+    await navigator.clipboard.writeText(link);
+    alert("Link copiado para a área de transferência!");
+  } catch (err) {
+    console.error("Falha ao copiar: ", err);
+  }
+}
+
 
 
   return (
@@ -87,7 +95,7 @@ export default function Gerador() {
         <p id={styles.linkreal}>{link}</p>
         <div className={styles.alinhar}>
           <button className={styles.btnAbrir} onClick={abrirWhatsapp} >Abrir whatsapp</button>
-          <button className={styles.btnCopy}><img src={image} alt="" /></button>
+          <button onClick={copiar} className={styles.btnCopy}><img src={image} alt="" /></button>
         </div>
       </div>
     </div>
