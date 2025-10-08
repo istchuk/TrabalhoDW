@@ -13,9 +13,10 @@ export default function Gerador() {
       setMensagem("")
       return
     }
-    //comentar isso
+    //condição do replace vai fazer substituir tudo que não é um dígito numérico (0-9) por um espaço em branco
      let quantidade = numero.toString().replace(/\D/g, "");
 
+     //Aqui ele verifica se a string obedece a condição de ter 11 carac, se for true ele entra na gração
   if (/^\d{11}$/.test(quantidade)) {
     const numeroCodificado = btoa(quantidade);
     const texto = mensagem ? `?text=${encodeURIComponent(mensagem)}` : "";
