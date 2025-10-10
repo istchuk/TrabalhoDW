@@ -1,8 +1,8 @@
-.adicionar{
+.adicionar{ 
     min-width: 40rem;
+    max-height: 50.5rem;
     display: flex;
     flex-direction: column;
-    margin: 1.5rem;
     padding: 1.5rem;
     justify-content: flex-start; 
     align-items: flex-start;
@@ -25,6 +25,11 @@
     font-weight: 700;
     color: var(--card-background);
     cursor: pointer;
+    transition: 0.5s;
+}
+
+.btnAdicionar:hover{
+    background-color: var(--primary-dark);
 }
 
 .adicionarcontato{
@@ -80,4 +85,10 @@
 
 .nomeContato {
     font-weight: bold;
+}
+
+.tipoContato{
+    margin: 0;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
 }

@@ -3,9 +3,6 @@ import { useState } from "react"
 import image from './icon.png'
 import { supabase } from "../supabaseCliente"  // ajuste o caminho se necessário
 
-
-
-
 export default function Gerador() {
   const [numero, setNumero] = useState("")
   const [mensagem, setMensagem] = useState("")
@@ -82,6 +79,22 @@ export default function Gerador() {
   }
 
 
+  // busca as mensagens quando o componente monta
+  // useEffect(() => {
+  //   async function carregarMensagens() {
+  //     const { data, error } = await supabase
+  //       .from("mensagens")
+  //       .select("conteudo")
+
+  //     if (error) {
+  //       console.error("Erro ao carregar mensagens:", error)
+  //     } else {
+  //       setMensagens(data)
+  //     }
+  //   }
+
+  //   carregarMensagens()
+  // }, [])
 
 
 

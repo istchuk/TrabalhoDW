@@ -126,7 +126,7 @@ export default function Adicionar() {
         {/* .length usado para gerar a contagem de contatos salvos no array */}
         <h3>Seus contatos ({contatos.length})</h3>
 
-        <select onChange={handleChangeCategoria} value={categoria}>
+        <select onChange={handleChangeCategoria} value={categoria} className={styles.tipoContato}>
           <option value="">Selcione o tipo do contato</option>
           <option value="Todos">Todos</option>
           <option value="Amigos">Amigos</option>
