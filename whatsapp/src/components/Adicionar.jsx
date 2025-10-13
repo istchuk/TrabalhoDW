@@ -81,7 +81,6 @@ export default function Adicionar() {
               nomeContato: nome,
               numeroContato: numeroLimpo,
               tipoContato: tipo,
-              categoria
             }
           ])
           .select()
