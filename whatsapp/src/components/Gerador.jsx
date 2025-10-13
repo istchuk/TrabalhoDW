@@ -2,6 +2,7 @@ import styles from "./Gerador.module.css"
 import { useState } from "react"
 import image from './icon.png'
 import { supabase } from "../supabaseCliente"  // ajuste o caminho se necessário
+import { useEffect } from "react"
 
 export default function Gerador() {
   const [numero, setNumero] = useState("")
@@ -67,34 +68,10 @@ export default function Gerador() {
       .insert([{conteudo: mensagem }])
 
     if (error) console.error("Erro ao adicionar mensagem:", error)
-    else console.log("Mensagem adicionada:", data)
-  }
-
-  function usarMensagemSalva(){
-
-  }
-
-  function usandoInput(index){
-    setUsandoIndex(index) //indica que está usando
+    else alert("Mensagem adicionada:", data)
   }
 
 
-  // busca as mensagens quando o componente monta
-  // useEffect(() => {
-  //   async function carregarMensagens() {
-  //     const { data, error } = await supabase
-  //       .from("mensagens")
-  //       .select("conteudo")
-
-  //     if (error) {
-  //       console.error("Erro ao carregar mensagens:", error)
-  //     } else {
-  //       setMensagens(data)
-  //     }
-  //   }
-
-  //   carregarMensagens()
-  // }, [])
 
 
 

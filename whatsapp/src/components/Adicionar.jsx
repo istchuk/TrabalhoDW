@@ -1,100 +1,163 @@
 import styles from "./Adicionar.module.css"
-import { useState } from "react"
-
+import { useState, useEffect } from "react"
+import { supabase } from "../supabaseCliente"
 
 export default function Adicionar() {
   const [nome, setNome] = useState("")
   const [numero, setNumero] = useState("")
   const [tipo, setTipo] = useState("")
   const [categoria, setCategoria] = useState("")
-  //usado para criar uma array com os contatos
-  const [contatos, setContatos] = useState([])
-  const [editIndex, setEditIndex] = useState(null) //guarda o índice do contato em edição
+  const [contatos, setContatos] = useState([]) // lista de contatos
+  const [editIndex, setEditIndex] = useState(null) // índice do contato sendo editado
 
-  //função chamada toda vez que o input nome muda
+  // === HANDLERS DOS INPUTS ===
   function handleChangeNome(event) {
     setNome(event.target.value)
   }
-  //função chamada toda vez que o input numero muda
-  function handleChangeNumero(event) {
-    setNumero(event.target.value)
+
+  function handleChangeNumero(e) {
+    // remove tudo que não é número
+    let valor = e.target.value.replace(/\D/g, "")
+    // adiciona parênteses nos dois primeiros dígitos
+    if (valor.length > 2) {
+      valor = `(${valor.slice(0, 2)})${valor.slice(2)}`
+    }
+    setNumero(valor)
   }
-  //função chamada toda vez que o select tipo muda
+
   function handleChangeTipo(event) {
     setTipo(event.target.value)
   }
-  //função chamada toda vez que o select categoria muda
+
   function handleChangeCategoria(event) {
     setCategoria(event.target.value)
   }
 
-
-  function adicionarContato() {
-    if(!numero){
-      alert("Digite um numero")
+  // === ADICIONAR OU EDITAR CONTATO ===
+  async function adicionarContato() {
+    if (!numero) {
+      alert("Digite um número")
       setNome("")
       return
     }
-    else{
-      //verifica se ha um nome e um numero
-      const quantidade = numero.toString()
-      if (nome && numero == quantidade && quantidade.length == 11){
-        if (editIndex !== null) {
-          // se estiver editando atualiza o contato
-          const novosContatos = [...contatos]
-          novosContatos[editIndex] = { nome, numero, tipo, categoria }
-          setContatos(novosContatos)
-          setEditIndex(null) //encerra a edit
+
+    const numeroLimpo = numero.toString().replace(/\D/g, "")
+
+    if (nome && numeroLimpo.length === 11) {
+      if (editIndex !== null) {
+        // --- EDITAR CONTATO ---
+        const contatoParaEditar = contatos[editIndex]
+
+        const { data, error } = await supabase
+          .from("contato")
+          .update({
+            nomeContato: nome,
+            numeroContato: numeroLimpo,
+            tipoContato: tipo,
+            categoria: categoria
+          })
+          .eq("id", contatoParaEditar.id)
+
+        if (error) {
+          console.error("Erro ao atualizar contato:", error)
         } else {
-          //se não estiver editando, cria uma copia do array contatos, e depois adiciona o novo contato
-          setContatos([...contatos, { nome, numero, tipo, categoria }])
+          const novosContatos = [...contatos]
+          novosContatos[editIndex] = {
+            ...contatoParaEditar,
+            nomeContato: nome,
+            numeroContato: numeroLimpo,
+            tipoContato: tipo,
+            categoria
+          }
+          setContatos(novosContatos)
+          setEditIndex(null)
         }
-        //limpa os inputs
-        setNome("")
-        setNumero("")
-        setTipo("")
-        setCategoria("")
-      }
-      else{
-        alert("Digite um número válido")
-        setNumero("")
-        setNome("")
-      }
-    } 
-    }
+      } else {
+        // --- ADICIONAR NOVO CONTATO ---
+        const { data, error } = await supabase
+          .from("contato")
+          .insert([
+            {
+              nomeContato: nome,
+              numeroContato: numeroLimpo,
+              tipoContato: tipo,
+              categoria
+            }
+          ])
+          .select()
 
-  function excluirContato(IndexParaExcluir){
-    //preciso comentar isso
+        if (error) {
+          console.error("Erro ao adicionar contato:", error)
+        } else {
+          setContatos([...contatos, data[0]])
+        }
+      }
+
+      // limpa os inputs
+      setNome("")
+      setNumero("")
+      setTipo("")
+      setCategoria("")
+    } else {
+      alert("Digite um número válido")
+      setNumero("")
+      setNome("")
+    }
+  }
+
+  // === EXCLUIR CONTATO ===
+  async function excluirContato(IndexParaExcluir) {
+    const contatoParaExcluir = contatos[IndexParaExcluir]
     setContatos(contatos.filter((_, index) => index !== IndexParaExcluir))
-  }
-
-  function enviarMensagem(numero){
-    const abrir = (`https://wa.me/${numero}`)
-    if (abrir) {
-      window.open(abrir, "_blank")
+     const { data, error } = await supabase
+          .from("contato")
+          .delete()
+          .eq("id", contatoParaExcluir.id)
+        
     }
+  
+
+  // === ENVIAR MENSAGEM VIA WHATSAPP ===
+  function enviarMensagem(numeroContato) {
+    const numeroLimpo = numeroContato.toString().replace(/\D/g, "")
+    const abrir = `https://wa.me/${numeroLimpo}`
+    window.open(abrir, "_blank")
   }
 
-  function editarContato(index){
-    setNome(contatos[index].nome)
-    setNumero(contatos[index].numero)
-    setTipo(contatos[index].tipo)
+  // === EDITAR CONTATO (CARREGA NOS INPUTS) ===
+  function editarContato(index) {
+    setNome(contatos[index].nomeContato)
+    setNumero(contatos[index].numeroContato)
+    setTipo(contatos[index].tipoContato)
     setCategoria(contatos[index].categoria)
-    setEditIndex(index) //indica que está editando 
+    setEditIndex(index)
   }
 
-  // FILTRO DE CONTATOS
+  // === FILTRAR CONTATOS ===
   const contatosFiltrados =
-    categoria === "Todos" || categoria === "" 
-      ? contatos 
-      : contatos.filter(c => c.tipo === categoria)
+    categoria === "Todos" || categoria === ""
+      ? contatos
+      : contatos.filter(c => c.tipoContato === categoria)
 
+  // === CARREGAR CONTATOS DO SUPABASE ===
+  useEffect(() => {
+    async function carregarContatos() {
+      const { data, error } = await supabase.from("contato").select("*")
+      if (error) {
+        console.error("Erro ao buscar contatos:", error)
+      } else {
+        setContatos(data)
+      }
+    }
+    carregarContatos()
+  }, [])
+
+  // === JSX ===
   return (
     <div className={styles.adicionar}>
       <h1>Adicionar contato</h1>
-      <div className={styles.inputs}> 
-        {/* para poder adicionar/editar com o enter do teclado */}
-        <form onSubmit={(e) => { e.preventDefault(); }}> 
+      <div className={styles.inputs}>
+        <form onSubmit={(e) => { e.preventDefault(); }}>
           <input
             type="text"
             placeholder="Nome"
@@ -103,14 +166,14 @@ export default function Adicionar() {
           />
 
           <input
-            type="number"
+            type="tel"
             placeholder="Número Ex:(xx)9..."
             value={numero}
             onChange={handleChangeNumero}
           />
 
           <select onChange={handleChangeTipo} value={tipo}>
-            <option value="">Selcione o tipo do contato</option>
+            <option value="">Selecione o tipo do contato</option>
             <option value="Amigos">Amigos</option>
             <option value="Família">Família</option>
             <option value="Trabalho">Trabalho</option>
@@ -118,16 +181,18 @@ export default function Adicionar() {
           </select>
 
           <button className={styles.btnAdicionar} onClick={adicionarContato}>
-            {/* se editIndex nao for nulo, o botao de adicionar o contato será substtuído por um de salvar a edição */}
-            {editIndex !== null ? "Salvar edição" : "Adicionar"} 
+            {editIndex !== null ? "Salvar edição" : "Adicionar"}
           </button>
         </form>
 
-        {/* .length usado para gerar a contagem de contatos salvos no array */}
         <h3>Seus contatos ({contatos.length})</h3>
 
-        <select onChange={handleChangeCategoria} value={categoria} className={styles.tipoContato}>
-          <option value="">Selcione o tipo do contato</option>
+        <select
+          onChange={handleChangeCategoria}
+          value={categoria}
+          className={styles.tipoContato}
+        >
+          <option value="">Selecione o tipo do contato</option>
           <option value="Todos">Todos</option>
           <option value="Amigos">Amigos</option>
           <option value="Família">Família</option>
@@ -137,19 +202,32 @@ export default function Adicionar() {
       </div>
 
       <div className={styles.adicionarcontato}>
-        {/* aqui, o react pega o contatos do usestate e para cada contato adicionado que ele percorre com o map é criada uma div específica para ele */}
         {contatosFiltrados.map((c, index) => (
-          // o key é uma funcionalidade do react para associar cada elemento da tela corresponde a cada item de uma lista, nesse caso o contato e sua div
           <div key={index} className={styles.contato}>
             <div>
-              <p className={styles.nomeContato}>{c.nome}</p>
-              <p>{c.numero}</p>
-              <p>{c.tipo}</p>
+              <p className={styles.nomeContato}>{c.nomeContato}</p>
+              <p>{c.numeroContato}</p>
+              <p>{c.tipoContato}</p>
             </div>
+
             <div className={styles.alinhamento}>
-              <button onClick={() => enviarMensagem(c.numero)}><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24"><path fill="#000000" d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-4.586l-2.707 2.707a1 1 0 0 1-1.414 0L8.586 19H4a2 2 0 0 1-2-2V6zm18 0H4v11h5a1 1 0 0 1 .707.293L12 19.586l2.293-2.293A1 1 0 0 1 15 17h5V6zM6 9.5a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1z"/></svg></button>
-              <button onClick={() => editarContato(index)}><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 21 21"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="M17 4a2.121 2.121 0 0 1 0 3l-9.5 9.5l-4 1l1-3.944l9.504-9.552a2.116 2.116 0 0 1 2.864-.125zm-1.5 2.5l1 1"/></svg></button>
-              <button onClick={() => excluirContato(index)}><svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 21 21"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="M5.5 4.5h10v12a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2zm5-2a2 2 0 0 1 1.995 1.85l.005.15h-4a2 2 0 0 1 2-2zm-7 2h14m-9 3v8m4-8v8"/></svg></button>
+              <button onClick={() => enviarMensagem(c.numeroContato)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24">
+                  <path fill="#000000" d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-4.586l-2.707 2.707a1 1 0 0 1-1.414 0L8.586 19H4a2 2 0 0 1-2-2V6zm18 0H4v11h5a1 1 0 0 1 .707.293L12 19.586l2.293-2.293A1 1 0 0 1 15 17h5V6zM6 9.5a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1zm0 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1z" />
+                </svg>
+              </button>
+
+              <button onClick={() => editarContato(index)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 21 21">
+                  <path fill="none" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" d="M17 4a2.121 2.121 0 0 1 0 3l-9.5 9.5l-4 1l1-3.944l9.504-9.552a2.116 2.116 0 0 1 2.864-.125zm-1.5 2.5l1 1" />
+                </svg>
+              </button>
+
+              <button onClick={() => excluirContato(index)}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 21 21">
+                  <path fill="none" stroke="#000000" strokeLinecap="round" strokeLinejoin="round" d="M5.5 4.5h10v12a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2zm5-2a2 2 0 0 1 1.995 1.85l.005.15h-4a2 2 0 0 1 2-2zm-7 2h14m-9 3v8m4-8v8" />
+                </svg>
+              </button>
             </div>
           </div>
         ))}
