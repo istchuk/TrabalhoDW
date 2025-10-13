@@ -9,6 +9,12 @@ export default function Gerador() {
   const [mensagem, setMensagem] = useState("")
   const [link, setLink] = useState("")
   const [usandoIndex, setUsandoIndex] = useState("")
+  const [modalAberto, setModalAberto] = useState(false)
+  const [mensagensSalvas, setMensagensSalvas] = useState([
+    "Não esqueça de revisar o código!",
+    "Mensagem teste 1",
+    "Mensagem teste 2"
+  ])
 
 
   function gerarLink() {
@@ -63,15 +69,26 @@ export default function Gerador() {
   }
 
   async function adicionarMensagem(mensagem) {
+    if (!mensagem) return alert("Digite uma mensagem para salvar!")
     const { data, error } = await supabase
       .from("mensagens")
-      .insert([{conteudo: mensagem }])
-
-    if (error) console.error("Erro ao adicionar mensagem:", error)
-    else alert("Mensagem adicionada:", data)
+      .insert([{ conteudo: mensagem }])
+      .select()
+    if (!error) {
+      setMensagensSalvas([...mensagensSalvas, data[0]])
+      setMensagem("")
+    }
   }
 
 
+  function abrirModal() { setModalAberto(true) }
+  function fecharModal() { setModalAberto(false) }
+
+  // excluir uma mensagem salva
+  async function excluirMensagem(id) {
+    const { error } = await supabase.from("mensagens").delete().eq("id", id)
+    if (!error) setMensagensSalvas(mensagensSalvas.filter(msg => msg.id !== id))
+  }
 
 
 
@@ -100,8 +117,22 @@ export default function Gerador() {
             value={mensagem}
             placeholder='Digite sua mensagem (opcional)' /></div>
 
-        <button className={styles.btnGerar} onClick={() => adicionarMensagem(mensagem)}>{usandoIndex !== null ? "Salvar Mensagem" : "Mensagens Salvas"}</button>
-        <button className={styles.btnGerar} onClick={gerarLink}>Gerar link</button>
+        <button type="button" className={styles.btnGerar} onClick={() => adicionarMensagem(mensagem)}>
+          Salvar Mensagem
+        </button>
+
+        <button type="button" className={styles.btnGerar} onClick={abrirModal}>
+          Ver Mensagens Salvas
+        </button>
+
+        <button
+          type="button"
+          className={styles.btnGerar}
+          onClick={gerarLink}
+        >
+          Gerar link
+        </button>
+
       </form>
 
 
@@ -115,6 +146,22 @@ export default function Gerador() {
           <button onClick={copiar} className={styles.btnCopy}><img src={image} alt="" /></button>
         </div>
       </div>
+      {modalAberto && (
+        <div className={styles.modalWindow}>
+          <div className={styles.modalHeader}>
+            <h2>Mensagens Salvas</h2>
+            <button className={styles.btnFechar} onClick={fecharModal}>X</button>
+          </div>
+          <ul className={styles.modalContent}>
+            {mensagensSalvas.map(msg => (
+              <li key={msg.id} className={styles.itemMensagem}>
+                <span>{msg.conteudo}</span>
+                <button className={styles.btnExcluir} onClick={() => excluirMensagem(msg.id)}>Excluir</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }
