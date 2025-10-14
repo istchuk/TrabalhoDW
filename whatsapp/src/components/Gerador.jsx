@@ -8,13 +8,9 @@ export default function Gerador() {
   const [numero, setNumero] = useState("")
   const [mensagem, setMensagem] = useState("")
   const [link, setLink] = useState("")
-  const [usandoIndex, setUsandoIndex] = useState("")
+  // const [usandoIndex, setUsandoIndex] = useState("")
   const [modalAberto, setModalAberto] = useState(false)
-  const [mensagensSalvas, setMensagensSalvas] = useState([
-    "Não esqueça de revisar o código!",
-    "Mensagem teste 1",
-    "Mensagem teste 2"
-  ])
+  const [mensagensSalvas, setMensagensSalvas] = useState([])
 
 
   function gerarLink() {
@@ -28,13 +24,13 @@ export default function Gerador() {
 
     //Aqui ele verifica se a string obedece a condição de ter 11 carac, se for true ele entra na gração
     if (/^\d{11}$/.test(quantidade)) {
-      const numeroCodificado = btoa(quantidade);
       const texto = mensagem ? `?text=${encodeURIComponent(mensagem)}` : "";
-      setLink(`https://wa.me/${numeroCodificado}${texto}`);
+      setLink(`https://wa.me/${quantidade}${texto}`);
     } else {
       alert("Digite um número válido");
       setNumero("");
       setMensagem("");
+
     }
   }
 
@@ -88,6 +84,23 @@ export default function Gerador() {
   async function excluirMensagem(id) {
     const { error } = await supabase.from("mensagens").delete().eq("id", id)
     if (!error) setMensagensSalvas(mensagensSalvas.filter(msg => msg.id !== id))
+  }
+
+   useEffect(() => {
+    async function carregarMensagens() {
+      const { data, error } = await supabase.from("mensagens").select("*")
+      if (error) {
+        console.error("Erro ao buscar mensagens:", error)
+      } else {
+        setMensagensSalvas(data)
+      }
+    }
+    carregarMensagens()
+  }, [])
+
+  function usarMensagemSalva(conteudo){
+    setMensagem(conteudo)
+    setModalAberto(false)
   }
 
 
@@ -156,7 +169,10 @@ export default function Gerador() {
             {mensagensSalvas.map(msg => (
               <li key={msg.id} className={styles.itemMensagem}>
                 <span>{msg.conteudo}</span>
-                <button className={styles.btnExcluir} onClick={() => excluirMensagem(msg.id)}>Excluir</button>
+                <div>
+                  <button className={styles.btnExcluir} onClick={() => excluirMensagem(msg.id)}>Excluir</button>
+                  <button className={styles.btnExcluir} onClick={() => usarMensagemSalva(msg.conteudo)}>Usar</button>
+                </div>
               </li>
             ))}
           </ul>
