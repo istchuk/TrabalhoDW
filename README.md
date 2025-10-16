@@ -9,7 +9,8 @@ O projeto foi desenvolvido em **React** e utiliza **Supabase** para armazenament
 ---
 
 ## 🔗 Link da aplicação
-- Acesse a aplicação funcionando aqui: [Lista de Contatos](https://listadecontatosdw.onrender.com)
+Acesse a aplicação funcionando aqui: [Lista de Contatos](https://listadecontatosdw.onrender.com)
+- 
 ---
 
 ## Funcionalidades
