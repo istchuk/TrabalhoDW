@@ -64,7 +64,7 @@ Hospedado via Render.
 ---
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/SEU-USUARIO/lista-de-contatos.git
+   git clone https://github.com/istchuk/TrabalhoDW.git
 
 2. **Acesse a pasta do projeto:**
    ```bash
