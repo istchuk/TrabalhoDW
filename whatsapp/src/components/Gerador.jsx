@@ -1,10 +1,12 @@
 import styles from "./Gerador.module.css"
 import { useState } from "react"
 import image from './icon.png'
-import { supabase } from "../supabaseCliente"  // ajuste o caminho se necessário
+import { supabase } from "../supabaseCliente"
 import { useEffect } from "react"
 
 export default function Gerador() {
+
+  // declaração das variáveis de estado
   const [numero, setNumero] = useState("")
   const [mensagem, setMensagem] = useState("")
   const [link, setLink] = useState("")
@@ -12,34 +14,7 @@ export default function Gerador() {
   const [modalAberto, setModalAberto] = useState(false)
   const [mensagensSalvas, setMensagensSalvas] = useState([])
 
-
-  function gerarLink() {
-    if (!numero) {
-      alert("Digite um número")
-      setMensagem("")
-      return
-    }
-    //condição do replace vai fazer substituir tudo que não é um dígito numérico (0-9) por um espaço em branco
-    let quantidade = numero.toString().replace(/\D/g, "");
-
-    //Aqui ele verifica se a string obedece a condição de ter 11 carac, se for true ele entra na gração
-    if (/^\d{11}$/.test(quantidade)) {
-      const texto = mensagem ? `?text=${encodeURIComponent(mensagem)}` : "";
-      setLink(`https://wa.me/${quantidade}${texto}`);
-    } else {
-      alert("Digite um número válido");
-      setNumero("");
-      setMensagem("");
-
-    }
-  }
-
-  function abrirWhatsapp() {
-    if (link) {
-      window.open(link, "_blank")
-    }
-  }
-
+  // funçoes de manipular e alterar os estados via inputs
   function handleChange(e) {
     //captura o valor do input e remove tudo que não é número
     let valor = e.target.value.replace(/\D/g, "")
@@ -55,15 +30,44 @@ export default function Gerador() {
     setNumero(valor)
   }
 
-  async function copiar() {
-    try {
-      await navigator.clipboard.writeText(link);
-      alert("Link copiado para a área de transferência!");
-    } catch (err) {
-      console.error("Falha ao copiar: ", err);
+  // função para gerar o link
+  function gerarLink() {
+    if (!numero) {
+      alert("Digite um número")
+      setMensagem("")
+      return
+    }
+    //condição do replace vai fazer substituir tudo que não é um dígito numérico (0-9) por um espaço em branco
+    let quantidade = numero.toString().replace(/\D/g, "")
+
+    //Aqui ele verifica se a string obedece a condição de ter 11 carac, se for true ele entra na gração
+    if (/^\d{11}$/.test(quantidade)) {
+      const texto = mensagem ? `?text=${encodeURIComponent(mensagem)}` : ""
+      setLink(`https://wa.me/${quantidade}${texto}`)
+    } else {
+      alert("Digite um número válido")
+      setNumero("")
+      setMensagem("")
     }
   }
 
+  // função para abrir o link em uma nova aba
+  function abrirWhatsapp() {
+    if (link) {
+      window.open(link, "_blank")
+    }
+  }
+  // função para copiar o link para a área de transferência
+  async function copiar() {
+    try {
+      await navigator.clipboard.writeText(link)
+      alert("Link copiado para a área de transferência!")
+    } catch (err) {
+      console.error("Falha ao copiar: ", err)
+    }
+  }
+
+  // salve uma mensagem no supabase
   async function adicionarMensagem(mensagem) {
     if (!mensagem) return alert("Digite uma mensagem para salvar!")
     const { data, error } = await supabase
@@ -75,18 +79,29 @@ export default function Gerador() {
       setMensagem("")
     }
   }
-
-
-  function abrirModal() { setModalAberto(true) }
-  function fecharModal() { setModalAberto(false) }
-
-  // excluir uma mensagem salva
+  // excluir uma mensagem do supabase
   async function excluirMensagem(id) {
     const { error } = await supabase.from("mensagens").delete().eq("id", id)
     if (!error) setMensagensSalvas(mensagensSalvas.filter(msg => msg.id !== id))
   }
 
-   useEffect(() => {
+  // usar uma mensagem salva
+  function usarMensagemSalva(conteudo) {
+    setMensagem(conteudo)
+    setModalAberto(false)
+  }
+
+  // abrir e fechar modal
+  function abrirModal() {
+    setModalAberto(true)
+  }
+
+  function fecharModal() {
+    setModalAberto(false)
+  }
+
+  // carrega as mensagens salvas do supabase quando o componente é montado
+  useEffect(() => {
     async function carregarMensagens() {
       const { data, error } = await supabase.from("mensagens").select("*")
       if (error) {
@@ -98,16 +113,11 @@ export default function Gerador() {
     carregarMensagens()
   }, [])
 
-  function usarMensagemSalva(conteudo){
-    setMensagem(conteudo)
-    setModalAberto(false)
-  }
-
-
-
+  
   return (
     <div className={styles.gerador}>
       <h1>Gerador de Links</h1>
+
       {/* para poder criar um link com o enter do teclado */}
       <form onSubmit={(e) => { e.preventDefault() }}>
         <div>
@@ -128,13 +138,23 @@ export default function Gerador() {
             id="mensagem"
             onChange={(e) => setMensagem(e.target.value)}
             value={mensagem}
-            placeholder='Digite sua mensagem (opcional)' /></div>
+            placeholder='Digite sua mensagem (opcional)'
+          />
+        </div>
 
-        <button type="button" className={styles.btnGerar} onClick={() => adicionarMensagem(mensagem)}>
+        <button
+          type="button"
+          className={styles.btnGerar}
+          onClick={() => adicionarMensagem(mensagem)}
+        >
           Salvar Mensagem
         </button>
 
-        <button type="button" className={styles.btnGerar} onClick={abrirModal}>
+        <button
+          type="button"
+          className={styles.btnGerar}
+          onClick={abrirModal}
+        >
           Ver Mensagens Salvas
         </button>
 
@@ -145,20 +165,21 @@ export default function Gerador() {
         >
           Gerar link
         </button>
-
       </form>
 
-
-
       <div className={styles.link}>
-
         <p id={styles.linkgerado}>Link gerado:</p>
         <p id={styles.linkreal}>{link}</p>
         <div className={styles.alinhar}>
-          <button className={styles.btnAbrir} onClick={abrirWhatsapp} >Abrir whatsapp</button>
-          <button onClick={copiar} className={styles.btnCopy}><img src={image} alt="" /></button>
+          <button className={styles.btnAbrir} onClick={abrirWhatsapp}>
+            Abrir whatsapp
+          </button>
+          <button onClick={copiar} className={styles.btnCopy}>
+            <img src={image} alt="" />
+          </button>
         </div>
       </div>
+
       {modalAberto && (
         <div className={styles.modalWindow}>
           <div className={styles.modalHeader}>
@@ -170,8 +191,18 @@ export default function Gerador() {
               <li key={msg.id} className={styles.itemMensagem}>
                 <span>{msg.conteudo}</span>
                 <div>
-                  <button className={styles.btnExcluir} onClick={() => excluirMensagem(msg.id)}>Excluir</button>
-                  <button className={styles.btnExcluir} onClick={() => usarMensagemSalva(msg.conteudo)}>Usar</button>
+                  <button
+                    className={styles.btnExcluir}
+                    onClick={() => excluirMensagem(msg.id)}
+                  >
+                    Excluir
+                  </button>
+                  <button
+                    className={styles.btnExcluir}
+                    onClick={() => usarMensagemSalva(msg.conteudo)}
+                  >
+                    Usar
+                  </button>
                 </div>
               </li>
             ))}

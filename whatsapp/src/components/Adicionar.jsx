@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { supabase } from "../supabaseCliente"
 
 export default function Adicionar() {
+  // Aqui estão todas as nossas variáveis de estado
   const [nome, setNome] = useState("")
   const [numero, setNumero] = useState("")
   const [tipo, setTipo] = useState("")
@@ -10,7 +11,7 @@ export default function Adicionar() {
   const [contatos, setContatos] = useState([]) // lista de contatos
   const [editIndex, setEditIndex] = useState(null) // índice do contato sendo editado
 
-  // === HANDLERS DOS INPUTS ===
+  // funções de atualizar e manipular os estados qando o uusuário interage com os inputs
   function handleChangeNome(event) {
     setNome(event.target.value)
   }
@@ -33,21 +34,24 @@ export default function Adicionar() {
     setCategoria(event.target.value)
   }
 
-  // === ADICIONAR OU EDITAR CONTATO ===
+  // função para adicionar ou editar contato
   async function adicionarContato() {
+    // verifica se o número foi digitado
     if (!numero) {
       alert("Digite um número")
       setNome("")
       return
     }
-
+    // remove tudo que não é número
     const numeroLimpo = numero.toString().replace(/\D/g, "")
 
+    // verifica se o nome e o número são válidos
     if (nome && numeroLimpo.length === 11) {
       if (editIndex !== null) {
-        // --- EDITAR CONTATO ---
+        // função para editar contato
         const contatoParaEditar = contatos[editIndex]
 
+        // salva as alterações no Supabase
         const { data, error } = await supabase
           .from("contato")
           .update({
@@ -66,14 +70,13 @@ export default function Adicionar() {
             ...contatoParaEditar,
             nomeContato: nome,
             numeroContato: numeroLimpo,
-            tipoContato: tipo,
-            categoria
+            tipoContato: tipo
           }
           setContatos(novosContatos)
           setEditIndex(null)
         }
       } else {
-        // --- ADICIONAR NOVO CONTATO ---
+        // adiciona novo contato no supabase
         const { data, error } = await supabase
           .from("contato")
           .insert([
@@ -98,16 +101,18 @@ export default function Adicionar() {
       setTipo("")
       setCategoria("")
     } else {
+      // alerta se o número for inválido
       alert("Digite um número válido")
       setNumero("")
       setNome("")
     }
   }
 
-  // === EXCLUIR CONTATO ===
+  // excluir contato
   async function excluirContato(IndexParaExcluir) {
     const contatoParaExcluir = contatos[IndexParaExcluir]
     setContatos(contatos.filter((_, index) => index !== IndexParaExcluir))
+    // exclui do supabase
      const { data, error } = await supabase
           .from("contato")
           .delete()
@@ -116,14 +121,14 @@ export default function Adicionar() {
     }
   
 
-  // === ENVIAR MENSAGEM VIA WHATSAPP ===
+  // função para enviar mensagem no whatsapp
   function enviarMensagem(numeroContato) {
     const numeroLimpo = numeroContato.toString().replace(/\D/g, "")
     const abrir = `https://wa.me/${numeroLimpo}`
     window.open(abrir, "_blank")
   }
 
-  // === EDITAR CONTATO (CARREGA NOS INPUTS) ===
+  // puxa o editar contato para os inputs
   function editarContato(index) {
     setNome(contatos[index].nomeContato)
     setNumero(contatos[index].numeroContato)
@@ -132,13 +137,13 @@ export default function Adicionar() {
     setEditIndex(index)
   }
 
-  // === FILTRAR CONTATOS ===
+  // filtra os contatos pela categoria selecionada
   const contatosFiltrados =
     categoria === "Todos" || categoria === ""
       ? contatos
       : contatos.filter(c => c.tipoContato === categoria)
 
-  // === CARREGAR CONTATOS DO SUPABASE ===
+  // carrega os contatos do supabase quando o componente é montado
   useEffect(() => {
     async function carregarContatos() {
       const { data, error } = await supabase.from("contato").select("*")
@@ -151,7 +156,7 @@ export default function Adicionar() {
     carregarContatos()
   }, [])
 
-  // === JSX ===
+ 
   return (
     <div className={styles.adicionar}>
       <h1>Adicionar contato</h1>
