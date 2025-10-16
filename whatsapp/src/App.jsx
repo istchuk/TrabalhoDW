@@ -12,7 +12,7 @@ export default function App() {
   return (
    <div className="container">
     <Gerador></Gerador>
-      <Adicionar></Adicionar>
+    <Adicionar></Adicionar>
    </div>
 
   )

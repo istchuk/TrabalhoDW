@@ -172,7 +172,7 @@ export default function Adicionar() {
 
           <input
             type="tel"
-            placeholder="Número Ex:(xx)9..."
+            placeholder="Número"
             value={numero}
             onChange={handleChangeNumero}
           />

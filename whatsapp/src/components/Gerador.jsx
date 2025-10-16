@@ -181,35 +181,43 @@ export default function Gerador() {
       </div>
 
 
-      {modalAberto && (
-        <div className={styles.modalWindow}>
-          <div className={styles.modalHeader}>
-            <h2>Mensagens Salvas</h2>
-            <button className={styles.btnFechar} onClick={fecharModal}>X</button>
+      {modalAberto && ( // Se o estado modalAberto for true, o modal será renderizado
+        <div className={styles.modalWindow}> {/* Janela flutuante que funciona como o modal */}
+
+          <div className={styles.modalHeader}> {/* Cabeçalho do modal */}
+            <h2>Mensagens Salvas</h2> {/* Título do modal */}
+            <button className={styles.btnFechar} onClick={fecharModal}>X</button> {/* Botão para fechar o modal */}
           </div>
-          <ul className={styles.modalContent}>
-            {mensagensSalvas.map(msg => (
-              <li key={msg.id} className={styles.itemMensagem}>
-                <span>{msg.conteudo}</span>
-                <div>
+
+          <ul className={styles.modalContent}> {/* Lista de mensagens salvas */}
+            {mensagensSalvas.map(msg => ( // Percorre cada mensagem salva
+              <li key={msg.id} className={styles.itemMensagem}> {/* Cada item da lista representa uma mensagem */}
+
+                <span>{msg.conteudo}</span> {/* Exibe o texto da mensagem */}
+
+                <div> {/* Container para os botões de ação */}
                   <button
                     className={styles.btnExcluir}
-                    onClick={() => excluirMensagem(msg.id)}
+                    onClick={() => excluirMensagem(msg.id)} // Chama função para excluir a mensagem pelo id
                   >
                     Excluir
                   </button>
+
                   <button
                     className={styles.btnExcluir}
-                    onClick={() => usarMensagemSalva(msg.conteudo)}
+                    onClick={() => usarMensagemSalva(msg.conteudo)} // Chama função para usar a mensagem salva (ex: preencher input)
                   >
                     Usar
                   </button>
                 </div>
+
               </li>
             ))}
           </ul>
+
         </div>
       )}
+
     </div>
   )
 }
