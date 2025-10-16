@@ -43,9 +43,14 @@ Acesse a aplicação funcionando aqui: [Lista de Contatos](https://listadecontat
    ```bash
    npm install
    npm i @supabase/supabase-js
-4. **Inicie o servidor de desenvolvimento:**
+
+4. **Instale as dependências:**
+   ```bash
+   colocar as chaves na pasta .env
+   
+5. **Inicie o servidor de desenvolvimento:**
    ```bash
    npm run dev
-5. **Acesse no navegador:**
+6. **Acesse no navegador:**
    ```bash
    http://localhost:5174/
