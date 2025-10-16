@@ -42,6 +42,7 @@ Acesse a aplicação funcionando aqui: [Lista de Contatos](https://listadecontat
 3. **Instale as dependências:**
    ```bash
    npm install
+   npm i @supabase/supabase-js
 4. **Inicie o servidor de desenvolvimento:**
    ```bash
    npm run dev
