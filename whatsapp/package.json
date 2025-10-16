@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "react-scripts build",
-    "start": "react-scripts build",
+    "build": "vite build",
+    "start": "vite preview",
     "lint": "eslint .",
     "preview": "vite preview"
   },
