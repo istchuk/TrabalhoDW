@@ -113,7 +113,7 @@ export default function Gerador() {
     carregarMensagens()
   }, [])
 
-  
+
   return (
     <div className={styles.gerador}>
       <h1>Gerador de Links</h1>
@@ -179,6 +179,7 @@ export default function Gerador() {
           </button>
         </div>
       </div>
+
 
       {modalAberto && (
         <div className={styles.modalWindow}>
