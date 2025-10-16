@@ -1,3 +1,4 @@
+---
 # 📱 Gerador de Links e Gerenciamento de Contatos
 
 ## Descrição
@@ -9,7 +10,7 @@ O projeto foi desenvolvido em **React** e utiliza **Supabase** para armazenament
 ---
 
 ## 🔗 Link da aplicação
-Acesse a aplicação funcionando aqui:
+Acesse a aplicação funcionando aqui: [Lista de Contatos](https://listadecontatosdw.onrender.com)
 
 ---
 
@@ -30,3 +31,26 @@ Acesse a aplicação funcionando aqui:
   É possível salvar mensagens frequentes para enviar rapidamente pelo WhatsApp, aumentando a praticidade do aplicativo.
 
 ---
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/istchuk/TrabalhoDW.git
+
+2. **Acesse a pasta do projeto:**
+   ```bash
+   cd .\whatsapp\
+   
+3. **Instale as dependências:**
+   ```bash
+   npm install
+   npm i @supabase/supabase-js
+
+4. **Instale as dependências:**
+   ```bash
+   colocar as chaves na pasta .env
+   
+5. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+6. **Acesse no navegador:**
+   ```bash
+   http://localhost:5174/
